@@ -48,8 +48,18 @@ class AxmlSwitchToDebug : ITerminalCommand, NodeChanger {
             out.invoke("http://schemas.android.com/apk/res/android", "debuggable", 16842767, 18, true)
             addDebug = true
         }
+        if (level == 2 && nodeName == "application" && name == "debuggable") {
+            println("Find already set debuggable")
+            return
+        }
+        if (level == 2 && nodeName == "application" && name == "testOnly") {
+            out.invoke(ns, name, resourceId, type, false)
+            return
+        }
+
         //println("$level,$nodeName, $ns,$name, $resourceId, $type, $result (${result?.javaClass})")
         out.invoke(ns, name, resourceId, type, result)
+
     }
 
     override fun checkAvailability(): ProcessBuilder? = null

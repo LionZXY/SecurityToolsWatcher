@@ -11,6 +11,7 @@ import ru.lionzxy.securitytools.utils.createFolder
 import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.lang.Thread.sleep
 
 val watcherDir = File("in")
 val outDir = File("out").createFolder()
@@ -30,10 +31,11 @@ fun main(args: Array<String>) {
 
     print("Run watcher...")
 
-    while (!Thread.interrupted()) {
-        println("Find file with pattern: TARGET-123445.extension (example: DEBUGAPK-1234.apk)")
-        checkFiles()
-    }
+    //while (!Thread.interrupted()) {
+    println("Find file with pattern: TARGET-123445.extension (example: DEBUGAPK-1234.apk)")
+    checkFiles()
+    sleep(1000)
+    // }
 }
 
 fun checkFiles() {
@@ -49,13 +51,13 @@ fun checkFiles() {
         }.toString()
         logFile.appendText("[ERROR] $stackTrace")
     } finally {
-        file.deleteRecursively()
+        // file.deleteRecursively()
     }
 }
 
 // File name pattern : TARGET-123445.extension
 fun processFile(file: File, logFile: File) {
-    print("Process ${file.absolutePath}")
+    println("Process ${file.absolutePath}")
     val fileName = file.nameWithoutExtension
     val args = fileName.split("-")
     val command = Command.valueOf(args[0])
